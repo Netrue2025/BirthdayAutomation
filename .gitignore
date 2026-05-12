@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# Next.js build output and caches
+.next/
+.next-stale*/
+out/
+
+# local environment files
+.env
+.env*.local
+
+# generated output and runtime files
+dist-api/
+uploads/
+*.log
+*.tsbuildinfo
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/

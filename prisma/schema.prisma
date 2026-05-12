@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BirthdayEventStatus {
+  PENDING
+  NOTIFIED
+  CARD_READY
+  SENT
+  SKIPPED
+  FAILED
+}
+
+enum NotificationChannel {
+  TELEGRAM
+  WHATSAPP
+  SYSTEM
+}
+
+model Member {
+  id          String   @id @default(cuid())
+  fullName    String
+  phoneNumber String
+  dateOfBirth DateTime @db.Date
+  imageUrl    String?
+  churchGroup String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  birthdayEvents BirthdayEvent[]
+  cardCache      GeneratedCard[]
+
+  @@index([fullName])
+  @@index([phoneNumber])
+  @@index([dateOfBirth])
+  @@index([churchGroup])
+}
+
+model AppSettings {
+  id                     String   @id @default("default")
+  churchName             String   @default("Grace Family Church")
+  churchLogo             String   @default("RJ")
+  logoUrl                String?
+  defaultTemplateId      String   @default("elegant")
+  notificationTime       String   @default("08:00")
+  telegramBotToken       String?
+  telegramChatId         String?
+  telegramEnabled        Boolean  @default(false)
+  defaultBirthdayMessage String   @default("We celebrate God's grace upon your life today. May this new year overflow with joy, strength, and divine favor.")
+  timezone               String   @default("Africa/Lagos")
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model BirthdayEvent {
+  id              String              @id @default(cuid())
+  memberId        String
+  eventDate       DateTime            @db.Date
+  status          BirthdayEventStatus @default(PENDING)
+  templateId      String?
+  greetingMessage String?
+  cardImageUrl    String?
+  whatsappUrl     String?
+  metadata        Json?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  member           Member            @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  notificationLogs NotificationLog[]
+
+  @@unique([memberId, eventDate])
+  @@index([eventDate])
+  @@index([status])
+}
+
+model NotificationLog {
+  id             String              @id @default(cuid())
+  eventId        String?
+  channel        NotificationChannel
+  recipient      String
+  message        String
+  status         String
+  attempts       Int                 @default(0)
+  errorMessage   String?
+  providerMsgId  String?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  event BirthdayEvent? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([channel])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model GeneratedCard {
+  id         String   @id @default(cuid())
+  memberId   String
+  templateId String
+  imageUrl   String
+  imageHash  String
+  expiresAt  DateTime?
+  createdAt  DateTime @default(now())
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([memberId, templateId, imageHash])
+  @@index([expiresAt])
+}

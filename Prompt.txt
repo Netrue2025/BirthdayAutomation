@@ -1,0 +1,641 @@
+Build a production-quality mobile-first web application called “BirthdayFlow” for churches to semi-automate birthday greetings to church members.
+
+IMPORTANT:
+This is V1 MVP.
+The app should feel like a MOBILE APP running on the web.
+Design for:
+
+* mobile phones first
+* tablets second
+* desktop responsive support optional
+
+NO LOGIN SYSTEM.
+The app should open directly into the management dashboard.
+
+PRIMARY GOAL:
+Help church admins:
+
+* save church member birthdays
+* receive reminders
+* generate personalized birthday cards automatically
+* quickly share birthday greetings through WhatsApp
+
+TECH STACK:
+
+* Next.js 15 (App Router)
+* TypeScript
+* Tailwind CSS
+* Framer Motion
+* Zustand
+* React Hook Form
+* Zod Validation
+* Shadcn UI
+* Lucide Icons
+* React Query
+* html-to-image
+* date-fns
+
+IMPORTANT UX REQUIREMENTS:
+The app must feel:
+
+* extremely smooth
+* modern
+* lightweight
+* fast
+* touch-friendly
+* mobile-native
+* minimal
+* emotionally warm
+* church-friendly
+
+DESIGN STYLE:
+
+* Clean white background
+* Soft modern gradients
+* Rounded corners
+* Soft shadows
+* Elegant typography
+* Smooth transitions
+* Large touch targets
+* Minimal clutter
+* Premium mobile dashboard feel
+
+APP STRUCTURE:
+
+/app
+/components
+/features
+/hooks
+/store
+/services
+/types
+/utils
+/templates
+/constants
+
+====================================
+MAIN APP FLOW
+=============
+
+Dashboard opens immediately on app load.
+
+No login.
+
+Main navigation should be:
+
+* Dashboard
+* Members
+* Templates
+* Notifications
+* Settings
+
+Use:
+
+* bottom mobile navigation
+* tablet responsive sidebar
+
+====================================
+
+1. DASHBOARD SCREEN
+   ====================================
+
+Create a beautiful mobile dashboard showing:
+
+* Today's birthdays
+* Upcoming birthdays
+* Quick actions
+* Notification status
+* Total members count
+
+Each birthday card should include:
+
+* member image
+* member name
+* age
+* quick preview button
+* quick share button
+
+Add:
+
+* floating add member button
+
+Dashboard should feel alive and modern.
+
+====================================
+2. ADD MEMBER FLOW
+==================
+
+Create progressive multi-step form flow.
+
+STEP 1:
+
+* Full name
+* Phone number
+
+STEP 2:
+
+* Date of birth
+* Church group/unit
+
+STEP 3:
+
+* Upload profile image
+
+STEP 4:
+
+* Preview summary
+
+IMPORTANT:
+
+* smooth transitions between steps
+* auto-save draft state
+* mobile-friendly keyboard handling
+* very minimal typing friction
+
+Use:
+
+* progress indicators
+* slide transitions
+* smooth animations
+
+====================================
+3. MEMBERS SCREEN
+=================
+
+Create searchable member management screen.
+
+Features:
+
+* search members
+* edit member
+* delete member
+* birthday filters
+* upcoming birthdays
+
+Card layout:
+
+* image
+* name
+* DOB
+* group
+* quick actions
+
+====================================
+4. BIRTHDAY CARD TEMPLATE SYSTEM
+================================
+
+Create 5 beautiful preset birthday templates.
+
+Template categories:
+
+1. Elegant
+2. Celebration
+3. Youth Style
+4. Minimal
+5. Worship Style
+
+Each template should support:
+
+* member image
+* member name
+* church logo
+* church name
+* birthday message
+
+Templates must feel:
+
+* modern
+* social-media-ready
+* WhatsApp-friendly
+* visually emotional
+
+Create reusable dynamic template rendering system.
+
+====================================
+5. BIRTHDAY CARD PREVIEW MODAL
+==============================
+
+When user taps Preview:
+
+* open fullscreen modal
+* render personalized birthday card
+* smooth modal animation
+
+Include:
+
+* share button
+* download button
+* regenerate button
+* template switcher
+
+====================================
+6. WHATSAPP SHARING FLOW
+========================
+
+IMPORTANT UX FLOW:
+
+User taps:
+“Share to WhatsApp”
+
+The system should:
+
+1. Generate birthday image
+2. Open WhatsApp chat using member phone number
+3. Show quick instruction modal:
+   “Tap attachment and select the generated image from recent photos.”
+
+DO NOT attempt unsupported WhatsApp automation hacks.
+
+Optimize flow for:
+
+* simplicity
+* speed
+* familiarity
+
+====================================
+7. SETTINGS SCREEN
+==================
+
+Allow admin to configure:
+
+* church name
+* church logo
+* default birthday message
+* default template
+* notification time
+* Telegram bot connection status
+
+====================================
+8. NOTIFICATIONS SCREEN
+=======================
+
+Display:
+
+* today birthday alerts
+* sent greetings history
+* upcoming reminders
+
+Modern mobile notification center feel.
+
+====================================
+9. ANIMATIONS
+=============
+
+Use Framer Motion heavily but elegantly.
+
+Include:
+
+* smooth page transitions
+* modal animations
+* floating button animations
+* progressive form transitions
+* loading skeletons
+* card hover/tap feedback
+
+Keep animations:
+
+* lightweight
+* premium
+* performant
+
+====================================
+10. PERFORMANCE REQUIREMENTS
+============================
+
+Optimize for:
+
+* low-end Android phones
+* tablets
+* mobile browsers
+* fast loading
+* minimal bundle size
+
+Avoid:
+
+* overengineering
+* excessive dependencies
+* desktop-first layouts
+
+====================================
+11. FINAL REQUIREMENTS
+======================
+
+Build:
+
+* production-quality UI
+* scalable architecture
+* reusable components
+* maintainable folder structure
+* mobile-app-like experience
+* responsive tablet support
+
+The app should feel like:
+“A lightweight relationship assistant for churches.”
+
+IMPORTANT:
+This is FRONTEND ONLY.
+Use mock data and service placeholders where backend integration is needed.
+
+
+
+
+Build the complete backend architecture and business logic layer for a mobile-first church birthday reminder web application called “BirthdayFlow”.
+
+IMPORTANT:
+This is V1 MVP backend implementation.
+
+The frontend already exists separately.
+
+Your task is to build:
+
+* APIs
+* database architecture
+* scheduling system
+* Telegram notification integration
+* birthday reminder engine
+* image generation support
+* WhatsApp workflow support
+
+The architecture must prioritize:
+
+* scalability
+* simplicity
+* maintainability
+* easy debugging
+* future mobile app integration
+
+TECH STACK:
+
+* Node.js
+* TypeScript
+* Fastify
+* PostgreSQL
+* Prisma ORM
+* node-cron
+* Telegram Bot API
+* Sharp
+* Cloudinary (optional)
+* Zod
+* Docker-ready architecture
+
+PROJECT STRUCTURE:
+
+/src
+/modules
+/services
+/controllers
+/routes
+/jobs
+/utils
+/database
+/templates
+/validators
+/types
+/config
+
+====================================
+
+1. MEMBER MANAGEMENT SYSTEM
+   ====================================
+
+Create full CRUD APIs for church members.
+
+Member fields:
+
+* id
+* fullName
+* phoneNumber
+* dateOfBirth
+* imageUrl
+* churchGroup
+* createdAt
+* updatedAt
+
+Features:
+
+* add member
+* update member
+* delete member
+* search members
+* birthday filtering
+* upcoming birthdays
+
+Implement:
+
+* validation
+* proper error handling
+* pagination
+* optimized queries
+
+====================================
+2. TEMPLATE MANAGEMENT SYSTEM
+=============================
+
+Implement 5 preset birthday card templates.
+
+Template data:
+
+* templateId
+* templateName
+* templateBackground
+* styling config
+
+Support:
+
+* dynamic text injection
+* image placement
+* church branding overlay
+
+====================================
+3. BIRTHDAY DETECTION ENGINE
+============================
+
+Create automated birthday checking system.
+
+Use:
+
+* node-cron
+
+Requirements:
+
+* daily birthday scan
+* upcoming birthday scan
+* timezone-safe scheduling
+
+The engine should:
+
+1. detect birthdays
+2. generate birthday event
+3. trigger Telegram notification
+4. prepare greeting card data
+
+====================================
+4. TELEGRAM BOT INTEGRATION
+===========================
+
+Implement Telegram bot notification system.
+
+Requirements:
+
+* send daily birthday reminders
+* send preview image
+* send quick action links
+
+Example:
+🎉 Today is Sarah’s birthday!
+
+[View Greeting]
+[Open Dashboard]
+
+Implement:
+
+* Telegram service layer
+* retry handling
+* notification logs
+
+====================================
+5. BIRTHDAY CARD GENERATION ENGINE
+==================================
+
+Implement dynamic birthday image rendering system.
+
+Use:
+
+* Sharp
+* HTML-to-image rendering
+* template composition
+
+Inject:
+
+* member image
+* member name
+* birthday text
+* church logo
+* church name
+
+Generate:
+
+* WhatsApp-friendly optimized images
+
+Optimize for:
+
+* fast generation
+* low memory usage
+* caching support
+
+====================================
+6. WHATSAPP SUPPORT
+===================
+
+Create WhatsApp helper utilities.
+
+Generate:
+https://wa.me/{phone}
+
+Requirements:
+
+* sanitize phone numbers
+* international formatting
+* quick message support
+
+DO NOT:
+
+* attempt unsupported WhatsApp automation
+
+====================================
+7. SETTINGS MANAGEMENT
+======================
+
+Create settings APIs for:
+
+* church name
+* logo
+* default template
+* notification time
+* Telegram bot settings
+* default birthday message
+
+====================================
+8. DASHBOARD ANALYTICS
+======================
+
+Create lightweight dashboard APIs:
+
+* today's birthdays
+* upcoming birthdays
+* member counts
+* sent greetings count
+
+====================================
+9. PERFORMANCE REQUIREMENTS
+===========================
+
+Optimize for:
+
+* fast API response
+* lightweight cron jobs
+* low memory usage
+* mobile-first frontend consumption
+
+Implement:
+
+* caching where necessary
+* optimized DB queries
+* clean architecture
+
+====================================
+10. SECURITY REQUIREMENTS
+=========================
+
+Implement:
+
+* rate limiting
+* input validation
+* file upload sanitization
+* environment variable protection
+
+No authentication required for V1.
+
+====================================
+11. DEPLOYMENT REQUIREMENTS
+===========================
+
+Prepare for:
+
+* Docker deployment
+* VPS deployment
+* Render deployment
+* Railway deployment
+
+Provide:
+
+* environment configs
+* scalable architecture
+* clean service separation
+
+====================================
+12. FINAL REQUIREMENTS
+======================
+
+Build:
+
+* production-quality backend
+* clean TypeScript architecture
+* maintainable codebase
+* scalable API structure
+* future mobile app compatibility
+
+IMPORTANT:
+This backend must support future expansion into:
+
+* mobile apps
+* multi-church support
+* WhatsApp Business API integration
+* cloud notifications
+* church CRM features
+
+The backend should feel lightweight, modern, reliable, and optimized for relationship-based engagement workflows.
+
+
+
+

@@ -1,0 +1,1 @@
+ALTER TABLE "AppSettings" ADD COLUMN "churchLogo" TEXT NOT NULL DEFAULT 'RJ';
