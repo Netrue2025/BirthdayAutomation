@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || (typeof window === "undefined" ? "http://localhost:4000" : window.location.origin);
 
 type ApiEnvelope<T> = {
   success: boolean;
@@ -33,7 +34,17 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}) 
     ...options,
     headers
   });
-  const payload = (await response.json()) as ApiEnvelope<T>;
+  const contentType = response.headers.get("Content-Type") || "";
+  const payload = contentType.includes("application/json")
+    ? ((await response.json()) as ApiEnvelope<T>)
+    : ({
+        success: false,
+        data: undefined as T,
+        error: {
+          code: "INVALID_RESPONSE",
+          message: `API returned ${response.status} ${response.statusText || "response"} instead of JSON`
+        }
+      } satisfies ApiEnvelope<T>);
 
   if (!response.ok || !payload.success) {
     throw new Error(payload.error?.message || `API request failed: ${response.status}`);
