@@ -1,5 +1,4 @@
 import crypto from "node:crypto";
-import sharp from "sharp";
 import { addDays } from "date-fns";
 import { prisma } from "@/src/database/prisma";
 import { env } from "@/src/config/env";
@@ -80,6 +79,7 @@ async function renderCardPng(input: RenderCardInput) {
   const { styling } = template;
   const memberImage = await loadMemberImage(input.memberImageUrl, styling.image.size);
   const svg = buildCardSvg(input, template);
+  const sharp = await getSharp();
 
   return sharp(Buffer.from(svg))
     .composite([
@@ -98,6 +98,8 @@ async function renderCardPng(input: RenderCardInput) {
 }
 
 async function loadMemberImage(imageUrl: string | null | undefined, size: number) {
+  const sharp = await getSharp();
+
   try {
     if (!imageUrl) {
       throw new Error("No image URL");
@@ -131,6 +133,11 @@ async function loadMemberImage(imageUrl: string | null | undefined, size: number
       .png()
       .toBuffer();
   }
+}
+
+async function getSharp() {
+  const { default: sharp } = await import("sharp");
+  return sharp;
 }
 
 function buildCardSvg(input: RenderCardInput, template: ReturnType<typeof getTemplateOrThrow>) {

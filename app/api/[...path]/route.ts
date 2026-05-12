@@ -13,31 +13,44 @@ function getApp() {
 }
 
 async function handleRequest(request: Request, { params }: { params: Promise<{ path?: string[] }> }) {
-  const app = await getApp();
-  const { path = [] } = await params;
-  const url = new URL(request.url);
-  const apiPath = `/api/${path.join("/")}${url.search}`;
-  const headers = Object.fromEntries(request.headers.entries());
-  const body = request.method === "GET" || request.method === "HEAD" ? undefined : Buffer.from(await request.arrayBuffer());
+  try {
+    const app = await getApp();
+    const { path = [] } = await params;
+    const url = new URL(request.url);
+    const apiPath = `/api/${path.join("/")}${url.search}`;
+    const headers = Object.fromEntries(request.headers.entries());
+    const body = request.method === "GET" || request.method === "HEAD" ? undefined : Buffer.from(await request.arrayBuffer());
 
-  const response = await app.inject({
-    method: request.method as HttpMethod,
-    url: apiPath,
-    headers,
-    payload: body
-  });
+    const response = await app.inject({
+      method: request.method as HttpMethod,
+      url: apiPath,
+      headers,
+      payload: body
+    });
 
-  const responseHeaders = new Headers();
-  for (const [key, value] of Object.entries(response.headers)) {
-    if (typeof value === "string") {
-      responseHeaders.set(key, value);
+    const responseHeaders = new Headers();
+    for (const [key, value] of Object.entries(response.headers)) {
+      if (typeof value === "string") {
+        responseHeaders.set(key, value);
+      }
     }
-  }
 
-  return new Response(response.body, {
-    status: response.statusCode,
-    headers: responseHeaders
-  });
+    return new Response(response.body, {
+      status: response.statusCode,
+      headers: responseHeaders
+    });
+  } catch (error) {
+    return Response.json(
+      {
+        success: false,
+        error: {
+          code: "API_BOOT_ERROR",
+          message: error instanceof Error ? error.message : "Unable to start API route"
+        }
+      },
+      { status: 500 }
+    );
+  }
 }
 
 export const GET = handleRequest;

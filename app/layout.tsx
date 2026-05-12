@@ -15,7 +15,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "BirthdayFlow",
-  description: "A lightweight relationship assistant for churches."
+  description: "A lightweight relationship assistant for churches.",
+  icons: {
+    icon: "/icon.svg"
+  }
 };
 
 export const viewport: Viewport = {

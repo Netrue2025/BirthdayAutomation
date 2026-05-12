@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import sharp from "sharp";
 import { env } from "@/src/config/env";
 import { buildMemberImageFilename, MEMBER_IMAGES_BUCKET, validateMemberImage } from "@/lib/supabase/storage";
 import { badRequest } from "@/src/utils/http-error";
@@ -23,6 +22,7 @@ export async function uploadProfileImageController(request: FastifyRequest, repl
     throw badRequest(validation.message);
   }
 
+  const { default: sharp } = await import("sharp");
   const buffer = await sharp(source)
     .rotate()
     .resize(800, 800, { fit: "cover" })

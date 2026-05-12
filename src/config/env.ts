@@ -101,6 +101,13 @@ export const env = {
   PUBLIC_UPLOAD_BASE_URL: normalizeUploadBaseUrl(parsedEnv.PUBLIC_UPLOAD_BASE_URL)
 };
 
-export const allowedOrigins = env.ALLOWED_ORIGINS.split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+export const allowedOrigins = Array.from(
+  new Set(
+    [
+      ...env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim()),
+      env.APP_BASE_URL,
+      env.API_BASE_URL,
+      process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ""
+    ].filter(Boolean)
+  )
+);
