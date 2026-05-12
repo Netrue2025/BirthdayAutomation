@@ -23,7 +23,7 @@ const memberSchema = z.object({
   phone: z.string().min(7, "Enter a WhatsApp phone number"),
   dob: z.string().min(1, "Choose date of birth"),
   group: z.string().min(2, "Choose or enter a church group"),
-  imageUrl: z.string().min(1, "Add a profile image")
+  imageUrl: z.string()
 });
 
 type MemberFormValues = z.infer<typeof memberSchema>;
@@ -125,10 +125,11 @@ export function AddMemberFlow({ open, onClose, editingMember }: AddMemberFlowPro
     const fieldsByStep: Array<Array<keyof MemberFormValues>> = [
       ["fullName", "phone"],
       ["dob", "group"],
-      ["imageUrl"],
+      [],
       ["fullName", "phone", "dob", "group", "imageUrl"]
     ];
-    const valid = await form.trigger(fieldsByStep[step]);
+    const fields = fieldsByStep[step];
+    const valid = fields.length === 0 ? true : await form.trigger(fields);
     if (valid && step === 2 && imageUpload.status === "error") {
       return;
     }
@@ -229,7 +230,7 @@ export function AddMemberFlow({ open, onClose, editingMember }: AddMemberFlowPro
                       <p className="mt-2 text-xs font-bold text-primary">{imageUpload.progress}% uploaded</p>
                     </div>
                   ) : null}
-                  <p className="mt-3 text-sm text-muted-foreground">JPG, PNG, or WEBP. Maximum 5MB.</p>
+                  <p className="mt-3 text-sm text-muted-foreground">JPG, PNG, or WEBP. Maximum 5MB. Optional.</p>
                 </div>
                 {imageUpload.error || form.formState.errors.imageUrl?.message ? (
                   <div className="rounded-2xl bg-red-50 p-3 text-sm font-semibold text-destructive">

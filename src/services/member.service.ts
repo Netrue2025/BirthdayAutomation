@@ -36,7 +36,28 @@ export async function updateMember(id: string, input: UpdateMemberInput) {
 
 export async function deleteMember(id: string) {
   await getMemberById(id);
-  await prisma.member.delete({ where: { id } });
+
+  await prisma.$transaction(async (tx) => {
+    const events = await tx.birthdayEvent.findMany({
+      where: { memberId: id },
+      select: { id: true }
+    });
+    const eventIds = events.map((event) => event.id);
+
+    if (eventIds.length > 0) {
+      await tx.notificationLog.deleteMany({
+        where: {
+          eventId: {
+            in: eventIds
+          }
+        }
+      });
+    }
+
+    await tx.birthdayEvent.deleteMany({ where: { memberId: id } });
+    await tx.generatedCard.deleteMany({ where: { memberId: id } });
+    await tx.member.delete({ where: { id } });
+  });
 }
 
 export async function getMemberById(id: string) {
