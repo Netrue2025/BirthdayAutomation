@@ -34,7 +34,7 @@ function withRequiredPostgresSsl(databaseUrl: string) {
     const isPostgres = url.protocol === "postgresql:" || url.protocol === "postgres:";
     const isSupabase = url.hostname.includes("supabase.com") || url.hostname.includes("pooler.supabase.com");
 
-    if (isPostgres && isSupabase && !url.searchParams.has("sslmode")) {
+    if (isPostgres && isSupabase && url.searchParams.get("sslmode") !== "require") {
       url.searchParams.set("sslmode", "require");
       return url.toString();
     }

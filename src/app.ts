@@ -52,13 +52,15 @@ export async function buildApp(): Promise<FastifyInstance> {
     }
   });
 
-  await mkdir(path.join(process.cwd(), "uploads"), { recursive: true });
+  if (!process.env.VERCEL) {
+    await mkdir(path.join(process.cwd(), "uploads"), { recursive: true });
 
-  await app.register(staticPlugin, {
-    root: path.join(process.cwd(), "uploads"),
-    prefix: "/uploads/",
-    decorateReply: false
-  });
+    await app.register(staticPlugin, {
+      root: path.join(process.cwd(), "uploads"),
+      prefix: "/uploads/",
+      decorateReply: false
+    });
+  }
 
   app.setErrorHandler((error, request, reply) => {
     request.log.error(error);
